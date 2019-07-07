@@ -29,6 +29,7 @@ class TestUserAddToCartFromProductPage(object):
         page.open()
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_cart(self, browser):
         page = ProductPage(browser, item_207_link)
         page.open()
@@ -38,18 +39,20 @@ class TestUserAddToCartFromProductPage(object):
 
 
 @pytest.mark.long
+@pytest.mark.need_review
 @pytest.mark.parametrize('promo', ["?promo=newYear2019",
-                                   "?promo=offer0",
-                                   "?promo=offer1",
-                                   "?promo=offer2",
-                                   "?promo=offer3",
-                                   "?promo=offer4",
-                                   "?promo=offer5",
-                                   "?promo=offer6",
-                                   "?promo=offer7",
-                                   "?promo=offer8",
+                                   # "?promo=offer0",
+                                   # "?promo=offer1",
+                                   # "?promo=offer2",
+                                   # "?promo=offer3",
+                                   # "?promo=offer4",
+                                   # "?promo=offer5",
+                                   # "?promo=offer6",
+                                   pytest.param("?promo=offer7",
+                                                marks=pytest.mark.xfail(reason="We're working on that!")),
+                                   # "?promo=offer8",
                                    "?promo=offer9"])
-def test_guest_can_add_promo_product_to_cart(browser, promo):
+def test_guest_can_add_product_to_cart(browser, promo):
     promo_link = item_207_link + promo
     page = ProductPage(browser, promo_link)
     page.open()
@@ -71,6 +74,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, item_207_link)
     page.open()
@@ -80,6 +84,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_cart_opened_from_product_page(browser):
     page = ProductPage(browser, item_207_link)
     page.open()
